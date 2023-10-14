@@ -4,7 +4,7 @@ import {useContext, useEffect, useMemo, useState} from "react";
 import {DiaryStateContext} from "../App";
 import Select from "../components/Select";
 import {useNavigate} from "react-router-dom";
-import Diary from "./Diary";
+import Diary from "../components/Diary";
 
 export default function Home() {
   const diaryList = useContext(DiaryStateContext);
@@ -80,9 +80,12 @@ export default function Home() {
             setEmotion(s);
           }}
         />
-        <Button text={"새 일기 추가"} type={"positive"} onClick={() => {
-          navigate("/new")
-        }}/>
+        <Button
+          text={"새 일기 추가"}
+          type={"positive"}
+          onClick={() => {
+            navigate("/new")
+          }}/>
       </div>
       {currentData.filter(it => emotion === "all" || (emotion === "good" && it.emotion >= 3) || (emotion === "bad" && it.emotion < 3)).map((it) =>
         <Diary key={it.id} {...it} />)}

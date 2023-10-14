@@ -1,8 +1,8 @@
 import {useNavigate} from "react-router-dom";
-import Button from "../components/Button";
+import Button from "./Button";
 import {format} from "date-fns";
 
-export default function Diary({emotion, date, content}) {
+export default function Diary({id: dId, emotion, date, content}) {
   const navigate = useNavigate();
   return <div className={"diary"}>
     <div className={"img-wrap"}>
@@ -15,7 +15,7 @@ export default function Diary({emotion, date, content}) {
     <Button
       text={"수정하기"}
       onClick={() => {
-        navigate("/edit")
+        navigate(`/edit/${dId}`)
       }}/>
   </div>
 }

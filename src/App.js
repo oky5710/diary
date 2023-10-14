@@ -1,8 +1,10 @@
 import './App.css';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Home from "./pages/Home";
-import {createContext, useReducer, useRef} from "react";
+import React, {createContext, useReducer, useRef} from "react";
 import New from "./pages/New";
+import Edit from "./pages/Edit";
+import View from "./pages/View";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -49,7 +51,7 @@ const dummyData = [{
 
 function App() {
   const [data, dispatch] = useReducer(reducer, dummyData);
-  const dataId = useRef();
+  const dataId = useRef(6);
   const onCreate = (date, content, emotion) => {
     dispatch({
       type: "CREATE",
@@ -60,6 +62,7 @@ function App() {
         emotion
       }
     })
+    dataId.current += 1;
   }
   const onRemove = (targetId) => {
     dispatch({type: "REMOVE", targetId})
@@ -86,6 +89,8 @@ function App() {
             <Routes>
               <Route path={"/"} element={<Home/>}></Route>
               <Route path={"/new"} element={<New/>}></Route>
+              <Route path={"/edit/:id"} element={<Edit/>}></Route>
+              <Route path={"/view/:id"} element={<View/>}></Route>
             </Routes>
           </div>
         </BrowserRouter>

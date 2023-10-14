@@ -1,5 +1,158 @@
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Yeon+Sung&display=swap');
 
+html,
+body,
+#__next {
+  height: 100%;
+}
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video,
+button,
+input,
+select {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: inherit;
+  font-family: inherit;
+  word-break: keep-all;
+  color: inherit;
+  box-sizing: border-box;
+}
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+blockquote,
+q {
+  quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+}
+
+button {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  outline: 0;
+  cursor: pointer;
+}
+
+img {
+  border: 0;
+}
+
+a:link {
+  text-decoration: none;
+}
+
 body {
   background-color: #f6f6f6;
   display: flex;
@@ -62,7 +215,7 @@ header {
 }
 
 h2 {
-  margin: 0;
+  font-size: 25px;
 }
 
 .content {
@@ -114,4 +267,159 @@ p {
 
 .diary .diary-cont p:first-child {
   font-weight: 800;
+}
+
+.diary-editor section {
+  margin-bottom: 40px;
+}
+
+.diary-editor h4 {
+  font-size: 22px;
+  margin-bottom: 20px;
+
+}
+
+.diary-editor .input-date {
+  border: 0;
+  border-radius: 5px;
+  background-color: #ececec;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.diary-editor .emotion-btns {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+}
+
+.diary-editor .emotion-btns button {
+  border-radius: 5px;
+  padding: 20px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  transition: 0.3s;
+}
+
+.diary-editor .emotion-btns button.btn-off {
+  background-color: #ececec;
+}
+
+.diary-editor .emotion-btns button.emotion-btn-1 {
+  background-color: #64c964;
+  color: #fff;
+}
+
+.diary-editor .emotion-btns button.emotion-btn-2 {
+  background-color: #9dd772;
+  color: #fff;
+}
+
+.diary-editor .emotion-btns button.emotion-btn-3 {
+  background-color: #fdce17;
+  color: #fff;
+}
+
+.diary-editor .emotion-btns button.emotion-btn-4 {
+  background-color: #fd8446;
+  color: #fff;
+}
+
+.diary-editor .emotion-btns button.emotion-btn-5 {
+  background-color: #fd565f;
+  color: #fff;
+}
+
+.diary-editor .emotion-btns button img {
+  width: 50%;
+  margin-bottom: 10px;
+}
+
+.diary-editor .emotion-btns button span {
+  font-size: 18px;
+}
+
+.diary-editor textarea {
+  width: 100%;
+  font-size: 20px;
+  font-family: inherit;
+  min-height: 200px;
+  resize: vertical;
+  border-radius: 5px;
+  background-color: #ececec;
+  padding: 20px;
+  border: 0;
+  box-sizing: border-box;
+}
+
+.diary-editor .bottom-btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.view section {
+  width: 100%;
+  margin-bottom: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+}
+
+.view section h4 {
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+
+.emotion-square {
+  width: 250px;
+  height: 250px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.emotion-square span {
+  font-size: 25px;
+  color: #fff;
+}
+
+.content-view {
+  padding: 20px;
+  width: 100%;
+  background-color: #ececec;
+  border-radius: 5px;
+  word-break: keep-all;
+  text-align: left;
+  font-family: "Yeon Sung", sans-serif;
+  overflow-wrap: break-word;
+  font-size: 20px;
+  line-height: 2.5;
+}
+
+.emotion-square.emotion-1 {
+  background-color: #64c964;
+}
+
+.emotion-square.emotion-2 {
+  background-color: #9dd772;
+}
+
+.emotion-square.emotion-3 {
+  background-color: #fdce17;
+}
+
+.emotion-square.emotion-4 {
+  background-color: #fd8446;
+}
+
+.emotion-square.emotion-5 {
+  background-color: #fd565f;
 }
