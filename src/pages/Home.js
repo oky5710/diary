@@ -1,8 +1,8 @@
-import Button from "./Button";
-import Header from "./Header";
+import Button from "../components/Button";
+import Header from "../components/Header";
 import {useContext, useEffect, useMemo, useState} from "react";
 import {DiaryStateContext} from "../App";
-import Select from "./Select";
+import Select from "../components/Select";
 import {useNavigate} from "react-router-dom";
 import Diary from "./Diary";
 
@@ -26,7 +26,7 @@ export default function Home() {
     const start = new Date(current.getFullYear(), current.getMonth(), 1, 0, 0, 0).getTime();
     const end = new Date(current.getFullYear(), current.getMonth() + 1, 0, 23, 59, 59).getTime();
     setCurrentData(diaryList.filter(it => it.date >= start && it.date <= end));
-  }, [current]);
+  }, [current, diaryList]);
   const navigate = useNavigate();
   return <>
     <Header
@@ -59,6 +59,7 @@ export default function Home() {
               if (a.date < b.date) {
                 return (s === "asc") ? -1 : 1;
               }
+              return 0
             })
             setCurrentData(copy)
           }}
@@ -83,7 +84,7 @@ export default function Home() {
           navigate("/new")
         }}/>
       </div>
-      {currentData.filter(it => emotion === "all" || emotion === "good" && it.emotion >= 3 || emotion === "bad" && it.emotion < 3).map((it) =>
+      {currentData.filter(it => emotion === "all" || (emotion === "good" && it.emotion >= 3) || (emotion === "bad" && it.emotion < 3)).map((it) =>
         <Diary key={it.id} {...it} />)}
     </div>
   </>

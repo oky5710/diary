@@ -1,8 +1,8 @@
 import './App.css';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import Home from "./components/Home";
+import Home from "./pages/Home";
 import {createContext, useReducer, useRef} from "react";
-import New from "./components/New";
+import New from "./pages/New";
 
 const reducer = (state, action) => {
   switch (action.type) {
