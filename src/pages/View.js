@@ -40,7 +40,7 @@ export default function View() {
       <section>
         <h4>오늘의 감정</h4>
         <div className={`emotion-${data.id} emotion-square`}>
-          <img src={currentEmotion.img} alt={currentEmotion.descript}/>
+          <img src={currentEmotion.img} alt=""/>
           <span>{currentEmotion.descript}</span>
         </div>
       </section>
