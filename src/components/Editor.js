@@ -31,7 +31,7 @@ export const emotionList = [
     descript: "끔찍함"
   }
 ]
-export default function Editor({isEdit = false, originData}) {
+export default function Editor({isEdit = false, originData = null}) {
   const contentRef = useRef();
   const navigate = useNavigate();
 
