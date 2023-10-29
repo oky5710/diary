@@ -38,11 +38,7 @@ export default function Editor({isEdit = false, originData = null}) {
   const [date, setDate] = useState(getStringDate(isEdit ? new Date(originData.date) : new Date()));
   const [emotion, setEmotion] = useState(isEdit ? originData.emotion : 3);
   const [content, setContent] = useState(isEdit ? originData.content : "");
-  const {onCreate, onEdit} = useContext(DiaryDispatchContext);
-
-  const handleClickEmotion = (emotion) => {
-    setEmotion(emotion);
-  }
+  const {onCreate, onEdit, onRemove} = useContext(DiaryDispatchContext);
 
   const handleSubmit = () => {
     if (content.length < 1) {
@@ -66,8 +62,21 @@ export default function Editor({isEdit = false, originData = null}) {
     }
   }, [isEdit, originData]);
   return <>
-    <Header headText={isEdit ? "일기 수정하기" : "새 일기 쓰기"}
-            leftChild={<Button text={"< 뒤로가기"} onClick={() => navigate(-1)}/>}></Header>
+    <Header
+      headText={isEdit ? "일기 수정하기" : "새 일기 쓰기"}
+      leftChild={<Button text={"< 뒤로가기"} onClick={() => navigate(-1)}/>}
+      rightChild={isEdit && (
+        <Button
+          text={"삭제하기"}
+          type={"negative"}
+          onClick={() => {
+            if (window.confirm("정말 삭제 하시겠습니까?")) {
+              onRemove(originData.id);
+            }
+            navigate("/", {replace: true})
+          }}/>
+      )}
+    ></Header>
     <div className="content diary-editor">
       <section>
         <h4>오늘은 언제인가요?</h4>
@@ -81,8 +90,9 @@ export default function Editor({isEdit = false, originData = null}) {
           {emotionList.map(it =>
             <EmotionItem
               isSelected={emotion === it.id}
-              onClick={handleClickEmotion}
-              key={it.id} eid={it.id}
+              onClick={setEmotion}
+              key={it.id}
+              eid={it.id}
               img={it.img}
               descript={it.descript}/>)}
         </div>

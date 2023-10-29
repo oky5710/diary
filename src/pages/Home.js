@@ -1,12 +1,33 @@
 import Button from "../components/Button";
 import Header from "../components/Header";
-import {useContext, useEffect, useMemo, useState} from "react";
+import {useCallback, useContext, useEffect, useMemo, useState} from "react";
 import {DiaryStateContext} from "../App";
-import Select from "../components/Select";
 import {useNavigate} from "react-router-dom";
 import Diary from "../components/Diary";
+import ControlMenu from "../components/ControlMenu";
 
+const sortList = [{
+  value: "desc",
+  name: "최신순"
+}, {
+  value: "asc",
+  name: "일자순"
+}];
+const emotionList = [{
+  value: "all",
+  name: "전부 다"
+}, {
+  value: "good",
+  name: "좋은 것만"
+}, {
+  value: "bad",
+  name: "나쁜 것만"
+}];
 export default function Home() {
+  useEffect(() => {
+    const titleElement = document.getElementsByTagName("title")[0];
+    titleElement.innerHTML = `감정 일기장`;
+  }, []);
   const diaryList = useContext(DiaryStateContext);
   const [current, setCurrent] = useState(new Date());
   const [currentData, setCurrentData] = useState([]);
@@ -28,6 +49,24 @@ export default function Home() {
     setCurrentData(diaryList.filter(it => it.date >= start && it.date <= end));
   }, [current, diaryList]);
   const navigate = useNavigate();
+  const handleChangeSort = useCallback((s) => {
+    setSort(s);
+    setCurrentData((prev) => {
+      const copy = JSON.parse(JSON.stringify(prev));
+      return copy.sort((a, b) => {
+        if (a.date > b.date) {
+          return (s === "asc") ? 1 : -1;
+        }
+        if (a.date < b.date) {
+          return (s === "asc") ? -1 : 1;
+        }
+        return 0
+      })
+    });
+  }, []);
+  const handleChangeEmotion = useCallback((s) => {
+    setEmotion(s);
+  }, [])
   return <>
     <Header
       headText={headText}
@@ -40,45 +79,16 @@ export default function Home() {
     />
     <div className="content">
       <div className={"list-filter"}>
-        <Select
+        <ControlMenu
           value={sort}
-          options={[{
-            value: "desc",
-            name: "최신순"
-          }, {
-            value: "asc",
-            name: "일자순"
-          }]}
-          onChange={(s) => {
-            setSort(s);
-            const copy = JSON.parse(JSON.stringify(currentData));
-            copy.sort((a, b) => {
-              if (a.date > b.date) {
-                return (s === "asc") ? 1 : -1;
-              }
-              if (a.date < b.date) {
-                return (s === "asc") ? -1 : 1;
-              }
-              return 0
-            })
-            setCurrentData(copy)
-          }}
+          optionList={sortList}
+          onChange={handleChangeSort}
         />
-        <Select
+
+        <ControlMenu
           value={emotion}
-          options={[{
-            value: "all",
-            name: "전부 다"
-          }, {
-            value: "good",
-            name: "좋은 것만"
-          }, {
-            value: "bad",
-            name: "나쁜 것만"
-          }]}
-          onChange={(s) => {
-            setEmotion(s);
-          }}
+          optionList={emotionList}
+          onChange={handleChangeEmotion}
         />
         <Button
           text={"새 일기 추가"}
@@ -87,7 +97,7 @@ export default function Home() {
             navigate("/new")
           }}/>
       </div>
-      {currentData.filter(it => emotion === "all" || (emotion === "good" && it.emotion >= 3) || (emotion === "bad" && it.emotion < 3)).map((it) =>
+      {currentData && currentData.filter(it => emotion === "all" || (emotion === "good" && it.emotion <= 3) || (emotion === "bad" && it.emotion > 3)).map((it) =>
         <Diary key={it.id} {...it} />)}
     </div>
   </>

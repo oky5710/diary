@@ -20,8 +20,11 @@ export default function View() {
         navigate("/", {replace: true});
       }
     }
-
   }, [diaryList, id]);
+  useEffect(() => {
+    const titleElement = document.getElementsByTagName("title")[0];
+    titleElement.innerHTML = `감정 일기장 - ${id}번 일기`;
+  }, []);
   if (!data) {
     return <div className={"content"}>로딩중 입니다.</div>
   }
@@ -39,7 +42,7 @@ export default function View() {
     <div className={"content view"}>
       <section>
         <h4>오늘의 감정</h4>
-        <div className={`emotion-${data.id} emotion-square`}>
+        <div className={`emotion-${currentEmotion.id} emotion-square`}>
           <img src={currentEmotion.img} alt=""/>
           <span>{currentEmotion.descript}</span>
         </div>

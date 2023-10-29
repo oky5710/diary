@@ -1,8 +1,9 @@
 import {useNavigate} from "react-router-dom";
 import Button from "./Button";
 import {format} from "date-fns";
+import React from "react";
 
-export default function Diary({id: dId, emotion, date, content}) {
+function Diary({id: dId, emotion, date, content}) {
   const navigate = useNavigate();
   return <div className={"diary"}>
     <div className={"img-wrap"}>
@@ -10,7 +11,7 @@ export default function Diary({id: dId, emotion, date, content}) {
     </div>
     <div className={"diary-cont"}>
       <p>{format(new Date(date), "yyyy년 M월 d일")}</p>
-      <p>{content}</p>
+      <a href={`/view/${dId}`}>{content}</a>
     </div>
     <Button
       text={"수정하기"}
@@ -19,3 +20,5 @@ export default function Diary({id: dId, emotion, date, content}) {
       }}/>
   </div>
 }
+
+export default React.memo(Diary);

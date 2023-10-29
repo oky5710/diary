@@ -1,57 +1,50 @@
 import './App.css';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Home from "./pages/Home";
-import React, {createContext, useReducer, useRef} from "react";
+import React, {createContext, useEffect, useReducer, useRef} from "react";
 import New from "./pages/New";
 import Edit from "./pages/Edit";
 import View from "./pages/View";
 
 const reducer = (state, action) => {
+  let newState = [];
   switch (action.type) {
     case "INIT":
-      return action.data;
+      newState = action.data;
+      break;
     case "CREATE":
-      return [action.data, ...state];
+      newState = [action.data, ...state];
+      break;
     case "REMOVE":
-      return state.filter((it) => it.id !== action.targetId)
+      newState = state.filter((it) => it.id !== action.targetId);
+      break;
     case "EDIT":
-      return state.map((it) => it.id === action.data.id ? {...action.data} : it)
+      newState = state.map((it) => it.id === action.data.id ? {...action.data} : it);
+      break;
     default:
+      return state;
   }
+  localStorage.setItem("diary", JSON.stringify(newState));
+  return newState;
 }
 
 export const DiaryStateContext = createContext();
 export const DiaryDispatchContext = createContext();
-const dummyData = [{
-  id: 1,
-  emotion: 1,
-  content: "오늘의 일기 1",
-  date: 1696813093053
-}, {
-  id: 2,
-  emotion: 2,
-  content: "오늘의 일기 2",
-  date: 1696813083053
-}, {
-  id: 3,
-  emotion: 3,
-  content: "오늘의 일기 3",
-  date: 1696813073053
-}, {
-  id: 4,
-  emotion: 4,
-  content: "오늘의 일기 4",
-  date: 1696813063053
-}, {
-  id: 5,
-  emotion: 5,
-  content: "오늘의 일기 5",
-  date: 1696813053053
-}]
 
 function App() {
-  const [data, dispatch] = useReducer(reducer, dummyData);
-  const dataId = useRef(6);
+  const [data, dispatch] = useReducer(reducer, []);
+  // 왜 useRef를 사용할까?
+  const dataId = useRef(0);
+  useEffect(() => {
+    const localData = JSON.parse(localStorage.getItem("diary"));
+    // local data가 빈배열[] 일때 에러가 나서 조건 추가함.
+    if (localData && localData.length) {
+      // sort 숫자 정렬 시 유의사항
+      const diaryList = localData.sort((a, b) => Number(b.id) - Number(a.id));
+      dataId.current = Number(diaryList[0].id) + 1;
+      dispatch({type: "INIT", data: diaryList});
+    }
+  }, []);
   const onCreate = (date, content, emotion) => {
     dispatch({
       type: "CREATE",
